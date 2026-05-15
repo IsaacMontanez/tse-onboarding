@@ -31,8 +31,7 @@ const makeDescriptionValidator = () =>
     .optional()
     .isString()
     .withMessage("description must be a string");
-const makeIsCheckedValidator = () =>
-  body("isChecked").optional().isBoolean().withMessage("isChecked must be a boolean");
+const makeIsCheckedValidator = () => body("isChecked").optional({ nullable: true }).isBoolean();
 const makeDateCreatedValidator = () =>
   body("dateCreated").isISO8601().withMessage("dateCreated must be a valid date-time string");
 // assignee is for Part 2.1
