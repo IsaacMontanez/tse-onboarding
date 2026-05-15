@@ -16,6 +16,7 @@ type Method = "GET" | "POST" | "PUT";
  * See https://vitejs.dev/guide/env-and-mode for more info about env variables
  * in Vite projects.
  */
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
 /**
@@ -86,11 +87,8 @@ async function assertOk(response: Response): Promise<void> {
  * @param headers The headers of the request (optional)
  * @returns The Response object returned by `fetch()`
  */
-export async function get(url: string, headers: Record<string, string> = {}): Promise<Response> {
-  // GET requests do not have a body
-  const response = await fetchRequest("GET", API_BASE_URL + url, undefined, headers);
-  await assertOk(response);
-  return response;
+export async function get(path: string) {
+  return fetch(`${API_BASE_URL}${path}`);
 }
 
 /**
@@ -101,14 +99,12 @@ export async function get(url: string, headers: Record<string, string> = {}): Pr
  * @param headers The headers of the request (optional)
  * @returns The Response object returned by `fetch()`
  */
-export async function post(
-  url: string,
-  body: unknown,
-  headers: Record<string, string> = {},
-): Promise<Response> {
-  const response = await fetchRequest("POST", API_BASE_URL + url, body, headers);
-  await assertOk(response);
-  return response;
+export async function post(path: string, body: unknown) {
+  return fetch(`${API_BASE_URL}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
 }
 
 /**
@@ -159,6 +155,7 @@ export type APIError = { success: false; error: string };
  * https://www.typescriptlang.org/docs/handbook/2/narrowing.html for more info
  * about type narrowing.
  */
+
 export type APIResult<T> = APIData<T> | APIError;
 
 /**
