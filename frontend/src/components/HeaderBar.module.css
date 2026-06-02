@@ -16,4 +16,6 @@
   font: var(--font-title);
   margin-left: 0.75rem;
   text-transform: uppercase;
+  font-size: 38px;
+  font-weight: 500;
 }
