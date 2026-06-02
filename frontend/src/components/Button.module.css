@@ -6,6 +6,9 @@
   border-radius: 0.5rem;
   font: var(--font-label);
   cursor: pointer;
+  font-size: 19px;
+  font-weight: 700;
+  font-width: 39px;
 }
 
 .primary {

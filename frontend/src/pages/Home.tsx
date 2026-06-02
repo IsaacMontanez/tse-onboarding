@@ -15,7 +15,7 @@ export function Home() {
 
       <TaskForm mode="create" onSuccess={() => setRefresh(refresh + 1)} />
 
-      <TaskList title="My Tasks" refresh={refresh} onUpdate={() => setRefresh(refresh + 1)} />
+      <TaskList title="All tasks" refresh={refresh} onUpdate={() => setRefresh(refresh + 1)} />
     </Page>
   );
 }

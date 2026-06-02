@@ -42,7 +42,7 @@ vi.mock("src/api/tasks", () => ({
  */
 const mockTask: Task = {
   _id: "task123",
-  title: "My task",
+  title: "My tasks",
   description: "Very important",
   isChecked: false,
   dateCreated: new Date(),
@@ -116,7 +116,7 @@ describe("taskForm", () => {
       task: mockTask,
     });
     expect(screen.queryByText("Edit task")).toBeInTheDocument();
-    expect(screen.queryByTestId(TITLE_INPUT_ID)).toHaveValue("My task");
+    expect(screen.queryByTestId(TITLE_INPUT_ID)).toHaveValue("My tasks");
     expect(screen.queryByTestId(DESCRIPTION_INPUT_ID)).toHaveValue("Very important");
   });
 

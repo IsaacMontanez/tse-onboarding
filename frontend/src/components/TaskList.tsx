@@ -31,8 +31,7 @@ export function TaskList({ title, refresh, onUpdate }: TaskListProps) {
 
   return (
     <div className={styles.listContainer}>
-      <span className={styles.listTitle}>{title}</span>
-
+      <h2 className={styles.listTitle}>{title}</h2>
       <div className={styles.itemContainer}>
         {tasks.length === 0 ? (
           <p>No tasks yet — create one above to get started!</p>
@@ -46,7 +45,6 @@ export function TaskList({ title, refresh, onUpdate }: TaskListProps) {
           ))
         )}
       </div>
-
       {error && (
         <Dialog
           title="Error"
