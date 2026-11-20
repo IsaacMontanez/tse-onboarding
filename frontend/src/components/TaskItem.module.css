@@ -5,10 +5,15 @@
   gap: 8px;
 }
 
+.item:hover {
+  background-color: var(--color-surface);
+}
+
 .textContainer {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-width: 0;
   padding: 12px 0;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -16,6 +21,22 @@
 .checked {
   opacity: 0.5;
   text-decoration: fade-out;
+}
+
+.checked .titleLink {
+  color: var(--color-text-secondary);
+}
+
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+  width: fit-content;
+  max-width: 100%;
+}
+
+.titleLink:hover {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .title {
@@ -27,4 +48,9 @@
   font-size: 19px;
   font-weight: 400;
   color: #666;
+}
+
+.userTag {
+  width: 12rem;
+  flex-shrink: 0;
 }

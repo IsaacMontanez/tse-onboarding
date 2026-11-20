@@ -5,7 +5,6 @@
 import express from "express";
 import * as TaskController from "src/controllers/task";
 import * as TaskValidator from "src/validators/task";
-console.log("LOADED ROUTER: /api/task");
 
 const router = express.Router();
 

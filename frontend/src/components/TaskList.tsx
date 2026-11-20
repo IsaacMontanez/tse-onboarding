@@ -13,8 +13,6 @@ export function TaskList({ title, refresh, onUpdate }: TaskListProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  console.log("TASKLIST TASKS:", tasks);
-
   useEffect(() => {
     async function fetchTasks() {
       const result = await getAllTasks();
