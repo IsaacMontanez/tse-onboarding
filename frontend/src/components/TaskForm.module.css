@@ -7,8 +7,6 @@
 
 .formTitle {
   font: var(--font-heading);
-  font-weight: 700;
-  font-size: 28px;
 }
 
 .formRow {
@@ -17,11 +15,12 @@
   justify-content: flex-start;
   column-gap: 2rem;
   align-items: flex-end;
+  margin-top: 1rem;
 }
 
 .textField {
   width: 50%;
-  max-width: 16rem;
+  max-width: 300px;
 }
 
 .textField.stretch {

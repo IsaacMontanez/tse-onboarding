@@ -31,7 +31,7 @@ export const getTask: RequestHandler = async (req, res, next) => {
 
   try {
     // if the ID doesn't exist, then findById returns null
-    const task = await TaskModel.findById(id);
+    const task = await TaskModel.findById(id).populate("assignee");
 
     if (task === null) {
       throw createHttpError(404, "Task not found.");
@@ -53,23 +53,28 @@ type CreateTaskBody = {
   title: string;
   description?: string;
   isChecked?: boolean;
+  assignee?: string | null;
 };
 
 export const createTask: RequestHandler = async (req, res, next) => {
   // extract any errors that were found by the validator
   const errors = validationResult(req);
-  const { title, description, isChecked } = req.body as CreateTaskBody;
+  const { title, description, isChecked, assignee } = req.body as CreateTaskBody;
 
   try {
     // if there are errors, then this function throws an exception
     validationErrorParser(errors);
 
-    const task = await TaskModel.create({
+    const created = await TaskModel.create({
       title,
       description,
       isChecked,
       dateCreated: Date.now(),
+      assignee: assignee || undefined,
     });
+
+    // Re-query so we can populate the assignee on the newly created task
+    const task = await TaskModel.findById(created._id).populate("assignee");
 
     // 201 means a new resource has been created successfully
     // the newly created task is sent back to the user
@@ -96,11 +101,12 @@ type UpdateTaskBody = {
   title: string;
   description?: string;
   isChecked?: boolean;
+  assignee?: string | null;
 };
 
 export const updateTask: RequestHandler = async (req, res, next) => {
   const errors = validationResult(req);
-  const { _id, title, description, isChecked } = req.body as UpdateTaskBody;
+  const { _id, title, description, isChecked, assignee } = req.body as UpdateTaskBody;
 
   try {
     validationErrorParser(errors);
@@ -114,9 +120,15 @@ export const updateTask: RequestHandler = async (req, res, next) => {
 
     const updated = await TaskModel.findByIdAndUpdate(
       id,
-      { title, description, isChecked, dateCreated },
+      {
+        title,
+        description,
+        isChecked,
+        dateCreated,
+        assignee: assignee || null,
+      },
       { new: true },
-    );
+    ).populate("assignee");
 
     if (updated === null) {
       return res.status(404).end();

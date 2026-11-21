@@ -1,14 +1,10 @@
 .button {
   width: auto;
-  height: 2.25rem;
-  padding: 0 0.75rem;
+  padding: 0.5rem 0.75rem;
   border: none;
   border-radius: 0.5rem;
   font: var(--font-label);
   cursor: pointer;
-  font-size: 19px;
-  font-weight: 700;
-  font-width: 39px;
 }
 
 .primary {

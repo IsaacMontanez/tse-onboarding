@@ -1,6 +1,6 @@
 import { Dialog } from "@tritonse/tse-constellation";
 import { useState } from "react";
-import { createTask } from "src/api/tasks";
+import { createTask, updateTask } from "src/api/tasks";
 import { Button, TextField } from "src/components";
 import styles from "src/components/TaskForm.module.css";
 
@@ -29,8 +29,7 @@ type TaskFormErrors = {
 };
 
 /**
- * The form that creates or edits a Task object. In the MVP, this is only
- * capable of creating Tasks.
+ * The form that creates or edits a Task object.
  *
  * @param props.mode Controls how the form renders and submits
  * @param props.task Optional initial data to populate the form with (such as
@@ -41,6 +40,7 @@ type TaskFormErrors = {
 export function TaskForm({ mode, task, onSubmit }: TaskFormProps) {
   const [title, setTitle] = useState<string>(task?.title || "");
   const [description, setDescription] = useState<string>(task?.description || "");
+  const [assignee, setAssignee] = useState<string>(task?.assignee?._id || "");
   const [isLoading, setLoading] = useState<boolean>(false);
   const [errors, setErrors] = useState<TaskFormErrors>({});
 
@@ -57,12 +57,28 @@ export function TaskForm({ mode, task, onSubmit }: TaskFormProps) {
       return;
     }
     setLoading(true);
-    createTask({ title, description })
+
+    const request =
+      mode === "create"
+        ? createTask({ title, description, assignee })
+        : updateTask({
+            _id: task!._id,
+            title,
+            description,
+            assignee,
+            isChecked: task!.isChecked,
+            dateCreated: task!.dateCreated,
+          });
+
+    request
       .then((result) => {
         if (result.success) {
-          // clear the form
-          setTitle("");
-          setDescription("");
+          if (mode === "create") {
+            // clear the form only in create mode
+            setTitle("");
+            setDescription("");
+            setAssignee("");
+          }
           // only call onSubmit if it's NOT undefined
           if (onSubmit) onSubmit(result.data);
         } else {
@@ -78,7 +94,10 @@ export function TaskForm({ mode, task, onSubmit }: TaskFormProps) {
         }
         setLoading(false);
       })
-      .catch(setErrorModalMessage);
+      .catch((error: unknown) => {
+        setErrorModalMessage(error instanceof Error ? error.message : String(error));
+        setLoading(false);
+      });
   };
 
   const formTitle = mode === "create" ? "New task" : "Edit task";
@@ -107,6 +126,15 @@ export function TaskForm({ mode, task, onSubmit }: TaskFormProps) {
           label="Description (optional)"
           value={description}
           onChange={(event) => setDescription(event.target.value)}
+        />
+      </div>
+      <div className={styles.formRow}>
+        <TextField
+          className={styles.textField}
+          data-testid="task-assignee-input"
+          label="Assignee ID (optional)"
+          value={assignee}
+          onChange={(event) => setAssignee(event.target.value)}
         />
         {/* set `type="primary"` on the button so the browser doesn't try to
         handle it specially (because it's inside a `<form>`) */}
