@@ -32,7 +32,7 @@ export function TaskList({ title, refresh, onUpdate }: TaskListProps) {
       <h2 className={styles.listTitle}>{title}</h2>
       <div className={styles.itemContainer}>
         {tasks.length === 0 ? (
-          <p>No tasks yet — create one above to get started!</p>
+          <p className={styles.empty}>No tasks yet. Add one above to get started!</p>
         ) : (
           tasks.map((task) => (
             <TaskItem

@@ -50,18 +50,20 @@ export function TaskItem({ task: initialTask, onUpdate }: TaskItemProps) {
         disabled={isLoading}
       />
 
-      <div
-        className={
-          task.isChecked ? `${styles.textContainer} ${styles.checked}` : styles.textContainer
-        }
-      >
-        <Link className={styles.titleLink} to={`/task/${task._id}`}>
-          <span className={styles.title}>{task.title}</span>
-        </Link>
-        {task.description && <span className={styles.description}>{task.description}</span>}
-      </div>
+      <div className={styles.content}>
+        <div
+          className={
+            task.isChecked ? `${styles.textContainer} ${styles.checked}` : styles.textContainer
+          }
+        >
+          <Link className={styles.title} to={`/task/${task._id}`}>
+            {task.title}
+          </Link>
+          {task.description && <span className={styles.description}>{task.description}</span>}
+        </div>
 
-      <UserTag className={styles.userTag} user={task.assignee} />
+        <UserTag className={styles.userTag} user={task.assignee} />
+      </div>
     </div>
   );
 }

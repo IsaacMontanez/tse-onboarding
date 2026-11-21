@@ -7,8 +7,6 @@
 
 .formTitle {
   font: var(--font-heading);
-  font-weight: 700;
-  font-size: 28px;
 }
 
 .formRow {
@@ -22,7 +20,7 @@
 
 .textField {
   width: 50%;
-  max-width: 16rem;
+  max-width: 300px;
 }
 
 .textField.stretch {

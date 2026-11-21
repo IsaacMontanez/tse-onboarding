@@ -9,9 +9,7 @@ export function Home() {
     <Page>
       <title>Home | TSE Todos</title>
 
-      <p>
-        <Link to="/about">About this app</Link>
-      </p>
+      <Link to="/about">About this app</Link>
 
       <TaskForm mode="create" onSubmit={() => setRefresh(refresh + 1)} />
 
